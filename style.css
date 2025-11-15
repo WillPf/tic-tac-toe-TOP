@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #101030;
+}
+.ctn {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3, 200px);
+    justify-content: center;
+    gap: 5px;
+    margin: 50px auto;
+    width: 60vw
+}
+.square, .disabled {
+    border-radius: 10px;
+    background-color: #add8e6;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    color: #454588;
+    font-weight: 700;
+    
+}
+.square:hover {
+    background-color: #dcf2fa;
+}
+.disabled {
+    background-color: #95acb4;
+    cursor: default;
+}
