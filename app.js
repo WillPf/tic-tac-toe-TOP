@@ -1,53 +1,78 @@
-
-(function createBoard() {
+function createBoard() {
     const container = document.querySelector(".ctn");
     let div = document.createElement("div");
     for (let i = 0; i< 9; i++) {
         container.appendChild(div);
-        div.outerHTML = "<div class='square' onclick='test(this)'></div>";
+        div.outerHTML = `<div class='square' id=${i} onclick='markBoard(this, currentPlayer)'></div>`;
     }
-})();
+};
 
-
-
-const Gameboard = {
-    board: [[".", ".", "."], [".", ".", "."], [".", ".", "."]],
-    render: function() {
-        console.table(this.board);       
-    },
-    checkWin: function() {
-        if (this.board[0][0] === this.board[0][1] && this.board[0][0] === this.board[0][2]) return this.board[0][0] != "."? this.board[0][0]: false;
-        if (this.board[1][0] === this.board[1][1] && this.board[1][0] === this.board[1][2]) return this.board[1][0] != "."? this.board[1][0]: false;
-        if (this.board[2][0] === this.board[2][1] && this.board[2][0] === this.board[2][2]) return this.board[2][0] != "."? this.board[2][0]: false;
-        if (this.board[0][0] === this.board[1][0] && this.board[0][0] === this.board[2][0]) return this.board[0][0] != "."? this.board[0][0]: false;
-        if (this.board[0][1] === this.board[1][1] && this.board[0][1] === this.board[2][1]) return this.board[0][1] != "."? this.board[0][1]: false;
-        if (this.board[0][2] === this.board[1][2] && this.board[0][2] === this.board[2][2]) return this.board[0][2] != "."? this.board[0][2]: false;
-        if (this.board[0][0] === this.board[1][1] && this.board[0][0] === this.board[2][2]) return this.board[0][0] != "."? this.board[0][0]: false;
-        if (this.board[0][2] === this.board[1][1] && this.board[0][2] === this.board[2][0]) return this.board[0][2] != "."? this.board[0][2]: false;
-        return false;
-    }
-}
 
 function Player(symbol) {
-    function draw(row, col) {
-        Gameboard.board[row][col] = this.symbol;
-        Gameboard.render();
-        let winner = Gameboard.checkWin();
-        if (player1.symbol === winner) console.log("Player 1 won");
-        if (player2.symbol === winner) console.log("Player 2 won");
-        
-        
+    function setName(num) {
+        this.name = prompt(`Please enter a name for player ${num}`);
     }
-    return {symbol, draw}
+    return {symbol, setName}
 }
+
+createBoard();
 
 const player1 = new Player("X");
 const player2 = new Player("O");
+player1.setName(1);
+player2.setName(2);
 
-function test(item) {
-    if (item.classList.value != "disabled") {
-        let symbol = "X";
-         item.outerHTML = `<div class='disabled'>${symbol}</div>`;
+let currentPlayer = player1;
+updateUI();
+
+function updateUI() {
+    const playerName = document.querySelector(".player");
+    playerName.innerHTML = `It's ${currentPlayer.name}'s turn to play`;
+}
+
+
+function markBoard(item, player) {
+    if (item.classList.value != "square disabled") {
+        let symbol = player.symbol;
+        item.outerHTML = `<div class='square disabled' id=${item.id}>${symbol}</div>`;
+        currentPlayer == player1 ? currentPlayer = player2: currentPlayer = player1;
+    }
+    updateUI();
+    if(test() == player1.symbol) {
+        document.querySelector(".player").innerHTML = `${player1.name} won the game.`;
+        document.querySelector(".popup").classList.add("enabled");
+    }
+    if(test() == player2.symbol) {
+        document.querySelector(".player").innerHTML = `${player2.name} won the game.`
+        document.querySelector(".popup").classList.add("enabled");
+    }
+    let disabled = document.querySelectorAll(".disabled");
+    if (disabled.length == 9) {
+        document.querySelector(".player").innerHTML =  "Nobody won the game.";
+        document.querySelector(".popup").classList.add("enabled");
     }
     
+}
+
+function test() {
+    let squares = document.querySelectorAll(".square");
+    if (squares[0].innerHTML == squares[1].innerHTML && squares[0].innerHTML == squares[2].innerHTML) if(squares[0].innerHTML != "") return squares[0].innerHTML;
+    if (squares[3].innerHTML == squares[4].innerHTML && squares[3].innerHTML == squares[5].innerHTML) if(squares[3].innerHTML != "") return squares[3].innerHTML;
+    if (squares[6].innerHTML == squares[7].innerHTML && squares[6].innerHTML == squares[8].innerHTML) if(squares[6].innerHTML != "") return squares[6].innerHTML;
+    if (squares[0].innerHTML == squares[3].innerHTML && squares[0].innerHTML == squares[6].innerHTML) if(squares[0].innerHTML != "") return squares[0].innerHTML;
+    if (squares[1].innerHTML == squares[4].innerHTML && squares[1].innerHTML == squares[7].innerHTML) if(squares[1].innerHTML != "") return squares[1].innerHTML;
+    if (squares[2].innerHTML == squares[5].innerHTML && squares[2].innerHTML == squares[8].innerHTML) if(squares[2].innerHTML != "") return squares[2].innerHTML;
+    if (squares[0].innerHTML == squares[4].innerHTML && squares[0].innerHTML == squares[8].innerHTML) if(squares[0].innerHTML != "") return squares[0].innerHTML;
+    if (squares[2].innerHTML == squares[4].innerHTML && squares[2].innerHTML == squares[6].innerHTML) if(squares[2].innerHTML != "") return squares[2].innerHTML;
+        
+}
+
+function restart() {
+    let squares = document.querySelectorAll(".square");
+        squares.forEach( square => {
+            square.remove();
+        })
+    createBoard();
+    updateUI();
+    document.querySelector(".popup").classList.value = "popup";
 }

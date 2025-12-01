@@ -1,3 +1,9 @@
+@font-face {
+font-family: "scienceGothicBold";
+src: url("./fonts/ScienceGothic-Bold.woff2") format("woff2"),
+url("./fonts/ScienceGothic-Bold.ttf") format("truetype");
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +21,7 @@ body {
     margin: 50px auto;
     width: 60vw
 }
-.square, .disabled {
+.square {
     border-radius: 10px;
     background-color: #add8e6;
     cursor: pointer;
@@ -25,6 +31,8 @@ body {
     font-size: 4rem;
     color: #454588;
     font-weight: 700;
+    font-family: "scienceGothicBold";
+    box-shadow: inset 0 0 15px darkblue;
     
 }
 .square:hover {
@@ -33,4 +41,46 @@ body {
 .disabled {
     background-color: #95acb4;
     cursor: default;
+}
+.disabled:hover {
+    background-color: #95acb4;
+}
+h1 {
+    text-align: center;
+    margin: 50px 0 20px;
+    color: #dcf2fa;
+    font-family: "scienceGothicBold";
+    font-size: 4rem;
+}
+.player {
+    color: #add8e6;
+    text-align: center;
+}
+.popup {
+    position: absolute;
+    display: flex;
+    width: 610px;
+    height: 610px;
+    background-color: #45458845;
+    align-self: center;
+    justify-self: center;
+    z-index: -2;
+    justify-content: center;
+    align-items: center;
+}
+.enabled {
+    z-index: 2;
+}
+.restart-btn {
+    width: 600px;
+    height: 600px;
+    border: none;
+    color: #dcf2fa88;
+    background-color: #45458845;
+    cursor: pointer;
+    font-size: 2.5rem;
+}
+.restart-btn:hover {
+    background-color: #5e5e8845;
+    color: #ffffff;
 }
